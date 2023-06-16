@@ -1,0 +1,10 @@
+@import "../../style.scss";
+.home {
+    padding: 30px;
+    border-right: 0.5px rgb(241, 240, 240) solid;
+    // background-color: #f2eaea;
+    // background-color: rgba(0,0,0,0.2);
+    @include mobile {
+        padding: 10px;
+    }
+}
