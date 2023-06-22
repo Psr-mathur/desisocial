@@ -1,6 +1,6 @@
 {
-  "name": "desisocial",
-  "homepage": "https://Psr-mathur.github.io/desisocial",
+  "name": "social-media-app",
+  "homepage": ".",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
