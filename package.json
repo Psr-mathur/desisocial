@@ -1,6 +1,6 @@
 {
   "name": "social-media-app",
-  "homepage": "https://Psr-mathur.github.io/desisocial",
+  "homepage": "https://Psr-mathur.github.io/social-media-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -25,9 +25,8 @@
     "sass": "^1.62.1"
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
-    "eslint": "^7.32.0",
-    "jest": "^27.0.6"
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-react": "^7.32.2"
   },
   "scripts": {
     "predeploy": "npm run build",
