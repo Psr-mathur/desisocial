@@ -24,10 +24,10 @@ const Login = () => {
             await login(inputs);
             navigate("/");
         } catch (err) {
-            setError(err.response.data);
+            setError(err.response);
         }
     };
-    console.log(error);
+    // console.log(error);
     return (
         <div className="login">
             <div className="card">
@@ -61,7 +61,7 @@ const Login = () => {
                             name="password"
                             onChange={handleChange}
                         />
-                        {error && <span>{error}</span>}
+                        {error && <span>{error.data}</span>}
                         <button onClick={handleLogin}>Login</button>
                     </form>
                 </div>

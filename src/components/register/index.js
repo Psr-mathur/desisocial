@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./index.scss";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { BASE_API } from "../../vars";
 
 const Register = () => {
     const [inputs, setInputs] = useState({
@@ -19,7 +20,7 @@ const Register = () => {
     const handleClick = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:4000/api/auth/register", inputs);
+            await axios.post(`${BASE_API}/auth/register`, inputs);
         } catch (err) {
             setError(err.response.data);
         }

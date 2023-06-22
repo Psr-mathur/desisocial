@@ -18,15 +18,18 @@ import makeReaquest from "../home/makerequest";
 import { useLocation } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 import Update from "../update";
+import Loading from "../../loading";
 
 const Profile = () => {
+    console.log("profile rendering", Date());
     const { currentUser } = useContext(AuthContext);
     const CPuserid = useLocation().pathname.split("/")[2];
+    console.log(CPuserid);
+    const [openUpdate, setopenUpdate] = useState(false);
 
-    const { isLoading, error, data } = useQuery(["user"], () => {
-        return makeReaquest
-            .get("/users/find/" + CPuserid)
-            .then((res) => res.data);
+    const { isLoading, error, data } = useQuery(["user"], async () => {
+        const res = await makeReaquest.get("/users/find/" + CPuserid);
+        return res.data;
     });
 
     const {
@@ -61,7 +64,6 @@ const Profile = () => {
         mutation.mutate(RelData.includes(currentUser.id));
     };
 
-    const [openUpdate, setopenUpdate] = useState(false);
     // console.log(data);
     return (
         <div className="profile">
@@ -73,12 +75,12 @@ const Profile = () => {
                 <>
                     <div className="images">
                         <img
-                            src={"/upload/" + data.coverpic}
+                            src={data.coverpic}
                             alt={data.coverpic}
                             className="cover"
                         />
                         <img
-                            src={"/upload/" + data.profilepic}
+                            src={data.profilepic}
                             alt={data.profilepic}
                             className="dp"
                         />
@@ -114,13 +116,14 @@ const Profile = () => {
                                         <span>{data.website}</span>
                                     </div>
                                 </div>
-                                {currentUser.id == CPuserid ? (
+                                {currentUser.id === parseInt(CPuserid) ? (
                                     <button onClick={() => setopenUpdate(true)}>
                                         Update
                                     </button>
                                 ) : (
                                     <button onClick={handleFollow}>
                                         {!RisLoading &&
+                                        !Rerror &&
                                         RelData.includes(currentUser.id)
                                             ? "Following"
                                             : "follow"}

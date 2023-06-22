@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./index.scss";
 import makeReaquest from "../home/makerequest";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AuthContext } from "../../context/authContext";
+import { imagekitupload2 } from "../../imagekitsetup";
 
 const Update = ({ setopenUpdate, user }) => {
+    console.log("update", Date());
+    const { setcurrentUser } = useContext(AuthContext);
     const [coverfile, setCoverfile] = useState(null);
     const [profilefile, setProfilefile] = useState(null);
+    const [updatestatus, setUpdatestatus] = useState(false);
     const [texts, setTexts] = useState({
         name: user.name,
         city: user.city,
@@ -16,38 +21,40 @@ const Update = ({ setopenUpdate, user }) => {
         setTexts((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
-    const upload = async (file) => {
-        try {
-            const formData = new FormData();
-            formData.append("file", file);
-            const res = await makeReaquest.post("/upload", formData);
-            return res.data;
-        } catch (error) {
-            console.log(error.response.data);
-        }
+    const updateCurrentuser = async () => {
+        const res = await makeReaquest.get("/users/find/" + user.id);
+        setcurrentUser(res.data);
     };
 
     const queryClient = useQueryClient();
     const mutation = useMutation(
-        (user) => {
-            return makeReaquest.put("/users", user);
+        async (user) => {
+            const res = await makeReaquest.put("/users", user);
+            // console.log(res.data);
+            return res;
         },
         {
             onSuccess: () => {
+                updateCurrentuser();
                 queryClient.invalidateQueries(["user"]);
+                queryClient.invalidateQueries(["posts"]);
+                // console.log("us");
                 setCoverfile(null);
                 setProfilefile(null);
+                setUpdatestatus(false);
             },
         }
     );
-
     const handleUpdate = async (e) => {
         e.preventDefault();
+        setUpdatestatus(true);
         let coverUrl;
         let profileUrl;
 
-        coverUrl = coverfile ? await upload(coverfile) : user.coverpic;
-        profileUrl = profilefile ? await upload(profilefile) : user.profilepic;
+        coverUrl = coverfile ? await imagekitupload2(coverfile) : user.coverpic;
+        profileUrl = profilefile
+            ? await imagekitupload2(profilefile)
+            : user.profilepic;
         mutation.mutate({
             ...texts,
             coverpic: coverUrl,
@@ -107,6 +114,11 @@ const Update = ({ setopenUpdate, user }) => {
                         onChange={handleChange}
                         value={texts.website}
                     />
+                </div>
+                <div>
+                    {updatestatus && (
+                        <span style={{ color: "red" }}>Updating....</span>
+                    )}
                 </div>
                 <button onClick={handleUpdate}>Update</button>
             </form>

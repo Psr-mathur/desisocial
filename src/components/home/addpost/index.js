@@ -8,22 +8,13 @@ import { AuthContext } from "../../../context/authContext";
 import "./index.scss";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import makeReaquest from "../makerequest";
+import { imagekitupload2 } from "../../../imagekitsetup";
+// import multerupload from "../../../multersetup";
 
 const Addpost = () => {
     const { currentUser } = useContext(AuthContext);
     const [desc, setDesc] = useState("");
     const [file, setFile] = useState(null);
-
-    const upload = async () => {
-        try {
-            const formData = new FormData();
-            formData.append("file", file);
-            const res = await makeReaquest.post("/upload", formData);
-            return res.data;
-        } catch (error) {
-            console.log(error.response.data);
-        }
-    };
 
     const queryClient = useQueryClient();
     const mutation = useMutation(
@@ -42,7 +33,10 @@ const Addpost = () => {
     let imgUrl = "";
     const handleClick = async (e) => {
         // e.preventDefault();
-        if (file) imgUrl = await upload();
+        if (file) {
+            imgUrl = await imagekitupload2(file);
+            // imgUrl = await multerupload(file);
+        }
         mutation.mutate({ desc: desc, img: imgUrl });
     };
 

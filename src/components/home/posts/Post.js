@@ -12,6 +12,7 @@ import moment from "moment";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import makeReaquest from "../makerequest.js";
 import { AuthContext } from "../../../context/authContext";
+import Postmenu from "./Postmenu";
 
 const Post = ({ post }) => {
     const [showComment, setshowComment] = useState(false);
@@ -21,7 +22,6 @@ const Post = ({ post }) => {
             .get("/likes?postid=" + post.id)
             .then((res) => res.data);
     });
-
     const queryClient = useQueryClient();
     const mutation = useMutation(
         (liked) => {
@@ -42,12 +42,15 @@ const Post = ({ post }) => {
         setshowComment(!showComment);
     };
     // console.log(post);
+    const [openmenu, setopenmenu] = useState(false);
+    // if (openmenu) console.log(post);
+
     return (
         <div className="post">
             <div className="container">
                 <div className="user">
                     <div className="userinfo">
-                        <img src={"/upload/" + post.profilepic} alt="" />
+                        <img src={post.profilepic} alt="" />
                         <div className="details">
                             <Link
                                 to={`/profile/${post.userid}`}
@@ -63,25 +66,42 @@ const Post = ({ post }) => {
                             </span>
                         </div>
                     </div>
-                    <MoreHoriz className="threedot" />
+                    <MoreHoriz
+                        className="threedot"
+                        onClick={() => setopenmenu((prev) => !prev)}
+                    />
+                    {openmenu && (
+                        <Postmenu
+                            currentUserid={currentUser.id}
+                            postid={post.id}
+                            postUserid={post.userid}
+                        />
+                    )}
                 </div>
                 <div className="content">
                     <p>{post.desc}</p>
-                    <img src={"/upload/" + post.img} alt="" />
+                    <img src={post.img} alt="" />
                 </div>
                 <div className="info">
-                    <div className="item">
-                        {data && data.includes(currentUser.id) ? (
-                            <FavoriteOutlined
-                                onClick={handlelike}
-                                style={{ color: "#ff0000" }}
-                            />
-                        ) : (
-                            <FavoriteBorderOutlined onClick={handlelike} />
-                        )}
+                    {error ? (
+                        "SWR"
+                    ) : isLoading ? (
+                        "Loading..."
+                    ) : (
+                        <div className="item">
+                            {data.includes(currentUser.id) ? (
+                                <FavoriteOutlined
+                                    onClick={handlelike}
+                                    style={{ color: "#ff0000" }}
+                                />
+                            ) : (
+                                <FavoriteBorderOutlined onClick={handlelike} />
+                            )}
 
-                        <span>{data && data.length} Likes</span>
-                    </div>
+                            <span>{data.length} Likes</span>
+                        </div>
+                    )}
+
                     <div className="item" onClick={handleshowComment}>
                         <TextsmsOutlined />
                         <span>Comments</span>
