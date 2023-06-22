@@ -1,5 +1,6 @@
 {
   "name": "social-media-app",
+  "homepage": "https://Psr-mathur.github.io/desisocial",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -13,6 +14,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
     "dotenv": "^16.3.1",
+    "gh-pages": "^5.0.0",
     "imagekit-javascript": "^1.5.5",
     "moment": "^2.29.4",
     "multer": "^1.4.5-lts.1",
@@ -28,6 +30,8 @@
     "jest": "^27.0.6"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
