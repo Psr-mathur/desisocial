@@ -17,23 +17,21 @@ function App() {
         return children;
     };
     return (
-        <div className="app">
-            <Routes>
-                <Route
-                    path="/"
-                    element={
-                        <ProtectedLayout>
-                            <Laylot />
-                        </ProtectedLayout>
-                    }
-                >
-                    <Route path="/" element={<Home />} />
-                    <Route path="/profile/:id" element={<Profile />} />
-                </Route>
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-            </Routes>
-        </div>
+        <Routes>
+            <Route
+                path="/"
+                element={
+                    <ProtectedLayout>
+                        <Laylot />
+                    </ProtectedLayout>
+                }
+            >
+                <Route path="/" element={<Home />} />
+                <Route path="/profile/:id" element={<Profile />} />
+            </Route>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+        </Routes>
     );
 }
 
