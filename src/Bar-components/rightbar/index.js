@@ -3,6 +3,7 @@ import "./index.scss";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "../../context/authContext";
 import makeReaquest from "../../components/home/makerequest";
+import { Link } from "react-router-dom";
 
 const Rightbar = () => {
     const { currentUser } = useContext(AuthContext);
@@ -42,13 +43,21 @@ const Rightbar = () => {
                         : data.map((ff) => {
                               return (
                                   <div className="user" key={ff.id}>
-                                      <div className="userinfo">
-                                          <img
-                                              src={ff.profilepic}
-                                              alt="userimg"
-                                          />
-                                          <span>{ff.name}</span>
-                                      </div>
+                                      <Link
+                                          to={`profile/${ff.id}`}
+                                          style={{
+                                              textDecoration: "none",
+                                              color: "inherit",
+                                          }}
+                                      >
+                                          <div className="userinfo">
+                                              <img
+                                                  src={ff.profilepic}
+                                                  alt="userimg"
+                                              />
+                                              <span>{ff.name}</span>
+                                          </div>
+                                      </Link>
                                       <div className="buttons">
                                           <button
                                               onClick={() =>
