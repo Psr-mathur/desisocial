@@ -35,9 +35,9 @@ const Navbar = () => {
                 </div>
             </div>
             <div className="right">
-                <PersonOutlined />
-                <EmailOutlined />
-                <NotificationsOutlined />
+                <PersonOutlined className="logo" />
+                <EmailOutlined className="logo" />
+                <NotificationsOutlined className="logo" />
                 <div
                     className="user"
                     onClick={() => setopenmenu((prev) => !prev)}

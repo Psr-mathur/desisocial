@@ -29,13 +29,13 @@
             border: 1px solid lightgray;
             border-radius: 5px;
             padding: 5px;
+            @include mobile {
+                display: none;
+            }
             input {
                 border: none;
                 outline: none;
                 width: 500px;
-                @include mobile {
-                    display: none;
-                }
                 @include tablet {
                     width: 200px;
                 }
@@ -47,8 +47,10 @@
         align-items: center;
         gap: 20px;
         // background: #171616;
-        @include mobile {
-            display: none;
+        .logo {
+            @include mobile {
+                display: none;
+            }
         }
         .user {
             display: flex;
@@ -65,6 +67,9 @@
             span {
                 font-weight: 500;
                 @include tablet {
+                    display: none;
+                }
+                @include mobile {
                     display: none;
                 }
             }
