@@ -8,6 +8,7 @@ import "./style.scss";
 import { useContext } from "react";
 import { AuthContext } from "./context/authContext";
 import Friends from "./components/leftbar.utils/friends";
+import Suggestions from "./components/navbar.utils/suggestions";
 
 function App() {
 	const { currentUser } = useContext(AuthContext);
@@ -29,6 +30,7 @@ function App() {
 			>
 				<Route path="/" element={<Home />} />
 				<Route path="/relations" element={<Friends />} />
+				<Route path="/suggestions" element={<Suggestions />} />
 				<Route path="/profile/:id" element={<Profile />} />
 			</Route>
 			<Route path="/login" element={<Login />} />

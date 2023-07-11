@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 import { BASE_API } from "../../vars";
 
-const Navbarmenu = ({ setopenmenu }) => {
+const Navbarmenu = ({ isopen, setopenmenu }) => {
 	const navigate = useNavigate();
 	const { currentUser } = useContext(AuthContext);
 	const queryClient = useQueryClient();
@@ -31,8 +31,13 @@ const Navbarmenu = ({ setopenmenu }) => {
 		mutation.mutate();
 	};
 
+	const handleFriends = () => {
+		setopenmenu(false);
+		navigate("/relations");
+	};
+
 	return (
-		<div className="navmenu">
+		<div className="navmenu" isopen={isopen.toString()}>
 			<ul>
 				<li onClick={() => setopenmenu(false)}>
 					<Link
@@ -45,7 +50,7 @@ const Navbarmenu = ({ setopenmenu }) => {
 						Profile
 					</Link>
 				</li>
-				<li onClick={() => navigate("/relations")}>Friends</li>
+				<li onClick={handleFriends}>Friends</li>
 				<li onClick={handleLogout}>Logout</li>
 				<li>Settings</li>
 			</ul>
